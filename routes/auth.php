@@ -36,4 +36,5 @@ Route::middleware('auth')->group(function () {
         request()->session()->regenerateToken();
         return redirect('/');
     })->name('logout');
+    Route::get('/profile', [UserController::class, 'show'])->name('profile');
 });
