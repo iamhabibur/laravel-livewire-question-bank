@@ -11,16 +11,18 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="font-sans antialiased">
-    <div x-data="{ 
-            isSidebarOpen: $persist(true), 
-            openDropdown: '{{ request()->routeIs('questions.*') ? 'mcq' : '' }}' 
-         }" 
+    <div x-data="{
+            isSidebarOpen: $persist(true),
+            openDropdown: '{{ request()->routeIs('questions.*') ? 'mcq' : '' }}'
+         }"
          class="flex min-h-screen bg-gray-100">
 
-        <aside 
+        {{-- Sidebar and Navigation --}}
+        <aside
             class="bg-gray-800 text-gray-300 flex-shrink-0 transition-all duration-300"
             :class="isSidebarOpen ? 'w-64' : 'w-20'">
             
+            {{-- ... Sidebar content ... --}}
             <div class="flex items-center justify-between p-4 border-b border-gray-700">
                 <a href="{{ route('dashboard') }}" x-show="isSidebarOpen" class="font-bold text-xl text-white">
                     Laravel Starter Kit
@@ -77,5 +79,6 @@
             </main>
         </div>
     </div>
+    @livewireScripts
 </body>
 </html>
