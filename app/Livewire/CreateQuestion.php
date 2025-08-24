@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Question;
 use Livewire\Component;
+use Exception;
 
 class CreateQuestion extends Component
 {
@@ -13,7 +14,7 @@ class CreateQuestion extends Component
 
     public function saveQuestion()
     {
-        $this->validate([
+        $validatedData = $this->validate([
             'title' => 'required|min:5',
             'optionA' => 'required',
             'optionB' => 'required',
@@ -22,23 +23,26 @@ class CreateQuestion extends Component
             'correct_answer' => 'required',
         ]);
 
-        Question::create([
-            'title' => $this->title,
-            'options' => [
-                'a' => $this->optionA,
-                'b' => $this->optionB,
-                'c' => $this->optionC,
-                'd' => $this->optionD,
-            ],
-            'correct_answer' => $this->correct_answer,
-        ]);
+        try {
+            Question::create([
+                'title' => $this->title,
+                'options' => [
+                    'a' => $this->optionA,
+                    'b' => $this->optionB,
+                    'c' => $this->optionC,
+                    'd' => $this->optionD,
+                ],
+                'correct_answer' => $this->correct_answer,
+            ]);
+        } catch (Exception $e) {
+            dd($e->getMessage()); // Log the error message for debugging
+            session()->flash('error', 'প্রশ্ন সংরক্ষণে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+            return;
+        }
 
-        $this->reset(); // ফর্ম রিসেট করার জন্য
-
-        // অন্য কম্পোনেন্টকে জানানোর জন্য একটি ইভেন্ট
+        $this->reset(); 
         $this->dispatch('question-created');
-        
-        session()->flash('success', 'প্রশ্ন সফলভাবে তৈরি হয়েছে।');
+        session()->flash('success', 'প্রশ্ন সফলভাবে তৈরি হয়েছে।');
     }
 
     public function render()
