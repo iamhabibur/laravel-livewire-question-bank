@@ -39,4 +39,9 @@
 
         <button type="submit">প্রশ্ন সেভ করুন</button>
     </form>
+     {{-- সকল প্রশ্ন দেখানোর কম্পোনেন্ট --}}
+    <div class="p-6 border rounded-lg">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">সকল প্রশ্নের তালিকা</h3>
+        @livewire('show-questions')
+    </div>
 </div>
